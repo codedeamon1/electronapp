@@ -1,0 +1,84 @@
+with acitvity:
+
+ app.post("/elogins",  async(req, res)=> {
+            tdt=await mydate()
+        console.log(req.body);
+        const {username, password} = req.body 
+        if(username!=''&&password!=''){
+        elogs.findOne({username:username}, async (err, user) => {
+            if(user){
+            const getpass = await bcrypt.compare(
+                req.body.password,
+                user.password
+            );
+                if(getpass) {
+                if(user.activity==1){
+                checkif(user._id,tdt)
+                const therole= await myroles.findOne({_id:user.role});
+                    user.login_status="1"
+                    user.login_time=tdt.today 
+                    user.save();
+                    user.login=1
+                    console.log("done");
+                    let jwtSecretKey = process.env.JSSW;
+                    console.log(jwtSecretKey)
+                    const token = generateAccessToken(user)
+                     console.log("sent")
+                    const pathdata=await userpath.findOne({userid:user._id})
+                    if(pathdata){
+                    mypath=1
+                    }
+                    else{
+                    mypath=0
+                    }
+                    console.log("manuallogg");
+                           res.send({message: "Login Successfull", token:"Bearer"+" "+token,status:1,role:therole,path:mypath})              
+                        }
+                        else{
+                            res.send({message:"your access was revoked or paused please contact your administrator",status:0})
+                        }
+                        }
+                        else if(req.body.auto==1){
+                        if(user.password==req.body.password){
+                          
+                if(user.activity==1){
+                checkif(user._id,tdt)
+                const therole= await myroles.findOne({_id:user.role});
+                    user.login_status="1"
+                    user.login_time=tdt.today 
+                    user.save();
+                    user.login=1
+                    console.log("done");
+                    let jwtSecretKey = process.env.JSSW;
+                    console.log(jwtSecretKey)
+                    const token = generateAccessToken(user)
+                     console.log("sent")
+                    const pathdata=await userpath.findOne({userid:user._id})
+                    if(pathdata){
+                    mypath=1
+                    }
+                    else{
+                    mypath=0
+                    }
+                    console.log("autologgedin");
+                           res.send({message: "Login Successfull", token:"Bearer"+" "+token,status:1,role:therole,path:mypath})              
+                        }
+                        else{
+                            res.send({message:"your access was revoked or paused please contact your administrator",status:0})
+                        }
+                        }
+                        }
+                        else{
+                        res.send({message:"password missmatch",status:0})
+                        }
+                    }
+                    
+                    else{
+                       res.send({message:"user not registered",status:0})
+                    }
+                    }) 
+                    }
+                      else{
+res.send({status:0,message:"Please enter username and password!!!"})
+    }
+            })

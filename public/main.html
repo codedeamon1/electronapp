@@ -1,0 +1,189 @@
+
+
+    
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>INFOAPTO</title>
+
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <meta name="keywords" content="">
+       <meta name="Robots" content="index, follow"/>
+       <meta name="googlebot" content="index, follow"/>
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+      <meta name="google-site-verification" content="" />
+      <meta name="Language" content="English"/>
+      <meta name="Geography" content="AG 110, River View Colony, Anna Nagar, Chennai - 600040">
+      <meta name="zipcode" content="600 040"/>
+      <meta name="city" content="Chennai"/>
+     <meta name="country" content="India"/>
+     <meta name="geo.position" content=""/>
+     <meta property="og:title" content="hiresay"/>
+     <meta property="og:image" content="https://hiresay.com/static/media/images/rchat.png"/>
+     <meta property="og:description" content=""/>
+     <meta property="og:url" content="http://hiresay.com/"/>
+     <meta name="twitter:card" content="summary"/>
+     <meta name="twitter:site" content="Hiresay"/>
+      <meta name="twitter:title" content="Hiresay"/>
+      <meta name="twitter:description" content=""/>
+
+<script src="filesave.js"></script>
+
+         <link rel="icon" href="./infoaptoicon.png">
+
+ 
+  <link rel="stylesheet" href="./style.css">
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
+  </head>
+  <body>
+    <style>
+      
+.button-btn1{
+    padding: 10px !important;
+    outline: none;
+    border: none;
+    border-radius: 48px;
+    background-color: #585fbb;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px 0;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: all 0.5s;
+}
+
+.button-btn1:hover{
+color:#fff;
+}
+    </style>
+      <div> 
+          <div style="text-align: center;">
+
+              <img src="./infoapto.png"  alt="logo" width="272" height="90" />
+              
+          <p style="font-size: 24px; font-weight: bold">File Manager of <span id="name"></span></p>
+         
+          
+          <button   class="button-btn1" id="button"  >
+             Click to Change or Select Path
+             </button>
+          <p><b>Your Selected Path: </b>  <span id="path"> </span></p>
+             </div>
+      </div>
+
+
+ 
+      <script src="render.js" ></script>
+<script type = "text/javascript"> 
+
+ 
+document.getElementById("name").innerHTML = sessionStorage.getItem("name");
+
+
+const moment = require('moment');
+
+
+
+let indian_date = new Date().toLocaleString("en-Us", {timeZone: 'Asia/Kolkata'});
+const today=moment(indian_date).format("DD-MM-YYYY")
+
+  var axios = require('axios');
+  
+  var userid=sessionStorage.getItem('id');
+  const atime=moment(indian_date).format("HH:mm");
+  const btime = moment().add(9, 'minutes').format('HH:mm');
+  var data = {
+        "userid" : userid,
+        "atime": atime,
+        "btime": btime
+     }
+  var config = {
+    method: 'post',
+    url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/appactivity',
+     
+    data : data
+  };
+  
+  console.log(data);
+  axios(config)
+  
+  .then(function (response) {
+   
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+window.setTimeout( function() {
+ 
+const moment = require('moment');
+
+let indian_date = new Date().toLocaleString("en-Us", {timeZone: 'Asia/Kolkata'});
+const today=moment(indian_date).format("DD-MM-YYYY")
+
+  var axios = require('axios');
+  
+  var userid=sessionStorage.getItem('id');
+  const atime=moment(indian_date).format("HH:mm");
+  const btime = moment().add(9, 'minutes').format('HH:mm');
+  var data = {
+        "userid" : userid,
+        "atime": atime,
+        "btime": btime
+     }
+  var config = {
+    method: 'post',
+    url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/appactivity',
+     
+    data : data
+  };
+  
+  axios(config)
+  
+  .then(function (response) {
+     
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}, 540000); 
+
+window.setTimeout( function() {
+  window.location.reload(20);
+  myspawn.on('exit', (code) => {
+   
+});
+}, 600000);
+
+ var path1 = sessionStorage.getItem("path");
+
+document.getElementById("path").innerHTML = path1;
+document.querySelector('#button').addEventListener('click', () => {
+const {ipcRenderer} = require('electron') 
+
+ipcRenderer.send('openFile', sessionStorage.getItem("id"))
+
+
+ipcRenderer.on('getData', (event, data) => { 
+
+ sessionStorage.setItem("path", data);
+ document.getElementById("path").innerHTML = data;
+
+}) 
+})
+
+
+</script> 
+   </body>
+
+</html>
+
+
+
+

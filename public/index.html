@@ -1,0 +1,250 @@
+
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>INFOAPTO</title>
+
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <meta name="keywords" content="">
+       <meta name="Robots" content="index, follow"/>
+       <meta name="googlebot" content="index, follow"/>
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+      <meta name="google-site-verification" content="" />
+      <meta name="Language" content="English"/>
+      <meta name="Geography" content="AG 110, River View Colony, Anna Nagar, Chennai - 600040">
+      <meta name="zipcode" content="600 040"/>
+      <meta name="city" content="Chennai"/>
+     <meta name="country" content="India"/>
+     <meta name="geo.position" content=""/>
+     <meta property="og:title" content="hiresay"/>
+     <meta property="og:image" content="https://hiresay.com/static/media/images/rchat.png"/>
+     <meta property="og:description" content=""/>
+     <meta property="og:url" content="http://hiresay.com/"/>
+     <meta name="twitter:card" content="summary"/>
+     <meta name="twitter:site" content="Hiresay"/>
+      <meta name="twitter:title" content="Hiresay"/>
+      <meta name="twitter:description" content=""/>
+
+
+
+         <link rel="icon" href="./infoaptoicon.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ 
+ 
+
+
+  <link rel="stylesheet" href="./style.css">
+
+  </head>
+  <body>
+
+    
+      <div class="container">
+          <div class="forms-container">
+            <div class="signin-signup">
+              <div class="login sign-in-form">
+                <img alt="logo" src="./infoapto.png"><h3>User Login</h3>
+                <p>Enter your Email-id here. Entered Email-id should be the same you used for Registering.</p>
+                <div class="input-field">
+                  <i class="fa fa-envelope"></i>
+                <input type="text" placeholder="Enter Email" id="username" name="username" required >
+              </div>
+              <div class="input-field">
+                  <i class="fa fa-lock"></i>
+                   <input  type="password" id="password" placeholder="Enter Password"  required>
+                  <i id="toggle-password" class="fa fa-fw fa-eye-slash"></i>
+              </div> 
+              <button type="submit" id="submit"  class="button-btn">Login</button ></div>
+           
+           
+                          
+<script src="loginrender.js" ></script>
+<script>
+
+  var path = require("path");
+  var os = require('os');
+const storage = require('electron-storage');
+  storage.get("checkfile")
+.then(data => {
+  var axios = require('axios');
+  
+    var data = JSON.stringify({
+      "userid":data.userid,
+      "auto":1,
+   });
+    
+   
+  
+   var config = {
+     method: 'post',
+     url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/myuserid',
+     headers: { 
+       'Content-Type': 'application/json'
+       },
+     data : data
+   };
+   
+   axios(config)
+   .then(function (response) {
+     console.log(response)
+      if(response.data.status === 1){
+        const jwt_decode = require('jwt-decode');
+      var ipcRenderer = require('electron').ipcRenderer;
+      ipcRenderer.send('message:loginhide', username )
+ 
+        
+      var data = response.data.data
+        var id = data._id;
+        var username=data.username;
+        var uname =data.name
+        var password=data.password;
+        var path=data.path;
+
+        sessionStorage.setItem("id", id);
+          sessionStorage.setItem("pwd", password);
+          sessionStorage.setItem("uname", username);
+          sessionStorage.setItem("name", uname);
+       
+       
+sessionStorage.setItem("path", path);
+        
+      }    
+   })
+   .catch(function (error) {
+     console.log(error);
+   });
+     
+})
+.catch(err => {
+  console.error(err);
+});
+ 
+  
+  
+
+
+    document.querySelector('#submit').addEventListener('click', function() {
+   
+
+      let username = document.getElementById("username").value;
+       let password = document.getElementById("password").value;
+
+ var axios = require('axios');
+     var data = JSON.stringify({
+        "username" : username,
+        "password": password,
+        "auto": 0,
+      
+     });
+    
+     var config = {
+       method: 'post',
+       url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/elogins',
+       headers: { 
+         'Content-Type': 'application/json'
+         },
+       data : data
+     };
+     
+     axios(config)
+     .then(function (response) {
+      
+      console.log(response);
+        if(response.data.status === 1){
+
+
+
+
+          const jwt_decode = require('jwt-decode');
+      var ipcRenderer = require('electron').ipcRenderer;
+      ipcRenderer.send('message:loginhide', username )
+ 
+ 
+      var data = response.data.data
+        var id = data._id;
+        var username=data.username;
+        var password=data.password;
+        var uname =data.name
+        var path=data.path;
+
+        sessionStorage.setItem("id", id);
+          sessionStorage.setItem("pwd", password);
+          sessionStorage.setItem("uname", username);
+          sessionStorage.setItem("name", uname);
+          sessionStorage.setItem("path", path);
+          data1={userid:id}
+
+          console.log(data1);
+
+storage.set("checkfile", data1)
+.then(() => {
+  console.log('The file was successfully written to the storage');
+})
+.catch(err => {
+  console.error(err);
+});
+       }
+      })
+                   
+                       });
+window.setTimeout( function() {
+  window.location.reload();
+
+}, 60000);                   
+     
+ 
+</script>
+
+          </div>
+          <div class="panels-container">
+              <div class="panel left-panel">
+                  <div class="content" style="z-index:80;">
+                               
+                      <img src="./sign-up.svg" alt="" class="image" style="margin-top: 25%;margin-left: 20%;">
+                  </div>
+              </div>
+               <div class="panel right-panel">
+                  <div class="content"  style="z-index:80;">
+                      <button class="btn trans" id="sign-in-button" >Sign-in</button>
+                      <img src="./sign-up.svg" alt="" class="image" style="width: 65%;margin-top: 34%;position: relative;right: 40%;" >
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script>
+      var passwordField =  document.getElementById('password');
+      var value = passwordField.value;
+      document.getElementById('toggle-password').addEventListener('click', () => {
+ 
+
+          if(passwordField.type == 'password') {
+		passwordField.type = 'text';
+    document.getElementById("toggle-password").classList.add('fa-eye');
+
+document.getElementById("toggle-password").classList.remove('fa-eye-slash');
+	}
+	else {
+		passwordField.type = 'password';
+    document.getElementById("toggle-password").classList.add('fa-eye-slash');
+
+document.getElementById("toggle-password").classList.remove('fa-eye');
+	}
+ 
+        });
+        </script>
+
+
+
+
+
+
+
+              
+
+   </body>
+
+</html>
