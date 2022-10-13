@@ -223,7 +223,7 @@ ipcMain.on('openFile', (event, id) => {
    
     var config = {
       method: 'post',
-      url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/savepaths',
+      url: 'http://ec2-54-197-18-205.compute-1.amazonaws.com:8000/savepaths',
       headers: { 
         'Content-Type': 'application/json'
         },

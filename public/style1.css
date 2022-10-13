@@ -1,0 +1,55 @@
+
+            .container-fluid{
+                margin-top: 10%;
+                padding: 5%;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            }
+            .custom-select{
+                margin-bottom: 5%;
+            }
+            form label{
+                font-weight: 600;
+            }
+            .submitrow{
+                text-align: center;
+            }
+            input[type="file"] {
+  display: block;
+}
+.imageThumb {
+  max-height: 75px;
+  border: 2px solid;
+  padding: 1px;
+  cursor: pointer;
+}
+.pip {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+.remove {
+  display: block;
+  background: #444;
+  border: 1px solid black;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+.remove:hover {
+  background: white;
+  color: black;
+}
+.field{
+    margin-bottom: 5%;
+}
+.pip{
+    display: contents;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px;
+    border: navajowhite;
+    border-radius: 5px;
+    margin-top: 10%;
+}
+       

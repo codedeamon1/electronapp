@@ -18,80 +18,31 @@ if(userid){
   console.log(path)
   if(ext=="pdf"||ext=="docx"||ext=="doc"){
 
-  fs.readFile(path).then(async(data)=>{
+  fs.readFile(path,(err,data)=>{
     var filename = path.replace(/^.*[\\\/]/, '')
     var { birthtime } = fs.statSync(path)
     const time=moment(birthtime).format("HH:mm:ss")
     console.log(time)
     if(data){
-   
-      filesaver(data,filename,userid,time).then(mydat=>{
+   console.log(data)
+      var mydat=filesaver(data,filename,userid,time)
         if(mydat==1){
           console.log("File process complete")
           }
-      })
-      .catch(e=>{
-        console.log(e)
-      })
+     
+     
     
    }
  })
- .catch(e=>{
-  console.log(e)
- })
+
 
 
 }
 })
 
-getfiles={
-"userid":userid
+
 }
-var config = {
-method: 'post',
-url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/getfiles',
-headers: { 
-  'Content-Type': 'application/json'
-  },
-data : getfiles
-};
-axios(config).then(function(response){
-if(response.data.status==1){
-  console.log(response.data.data[3])
-}
-}).catch(error=>console.log(error));
-}
-async function uploader(data2,path,userid,time){
-      
-       const storage = new AWS.S3({
-         accessKeyId: 'AKIA3HZ4LC7ZL2LYZHP6',
-         secretAccessKey: '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'
-       })
-       try { 
-         const parames = {
-             Bucket: 'infoapp/office/'+userid,
-             Key: `${path}`,
-             Body: data2
-           }
-     
-          await storage.upload(parames).promise(err=>{
-           if(!err){
-             console.log("s3upload")
-              
-           }
-          })
-          
-          return 1
-          
-     }
-     catch(err){
-       if(err){
-         console.log(err);
-         return 0
-       }
-     }
-     
-     }
+
          
        
        
@@ -100,7 +51,7 @@ async function uploader(data2,path,userid,time){
      
      
 async function filesaver(data2,filename,userid,time){
-     
+     console.log("infunction")
        thisdata=JSON.stringify({
          "file":filename,
          "userid":userid,
@@ -108,7 +59,7 @@ async function filesaver(data2,filename,userid,time){
        })
        var config = {
          method: 'post',
-         url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/appuploads',
+         url: 'http://ec2-54-197-18-205.compute-1.amazonaws.com:8000/filecheck',
          headers: { 
            'Content-Type': 'application/json'
            },
@@ -118,11 +69,11 @@ async function filesaver(data2,filename,userid,time){
         axios(config)
         .then(function (response) {
         
-          if(response.data.status === 1){
-            uploader(data2,filename,userid,time)
+          if(response.data.status === 0){
+           console.log("new file")
           }
         else{
-          console.log("skip")
+          console.log("already exist")
         }})
         .catch(error=>{
           console.log(error)

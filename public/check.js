@@ -43,7 +43,7 @@ getfiles={
 }
 var config = {
   method: 'post',
-  url: 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/getfiles',
+  url: 'http://ec2-54-197-18-205.compute-1.amazonaws.com:8000/getfiles',
   headers: { 
     'Content-Type': 'application/json'
     },
