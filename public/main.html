@@ -105,7 +105,11 @@
       </script>
 
         <div class="container">
+<<<<<<< HEAD
           <form method="POST" id="form" enctype="multipart/form-data">
+=======
+          <form method="POST" id="form">
+>>>>>>> 205d2222a3a6c97b5905c12b72a722bf21e85dda
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
@@ -164,12 +168,22 @@
                   </div>
                 </div>
                 
+<<<<<<< HEAD
                 <div class="row ">
                     <div class="col-md-12 text-center">
                      <button type="submit" class="button-btn save" > Save </button>
                  </div>
                 </div>
                 </div>
+=======
+                <div class="row submitrow ">
+                    <div class="col-md-12">
+ 
+                      <a href="#" class="button-btn save" style="margin-top: 10px;">Send</a>
+                </div>
+                </div>
+                </div>
+>>>>>>> 205d2222a3a6c97b5905c12b72a722bf21e85dda
               </form>
         </div>
         <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>     
@@ -219,6 +233,7 @@ $('#form').submit(function(e) {
       success: function(response) {
        if(response.status==1){
         
+<<<<<<< HEAD
         swal({
   icon: 'success',
   title: response.message,
@@ -302,7 +317,26 @@ console.log(formData);
       
       });*/
 </script>
+=======
+<script>
+    $("body").on("click", ".save", function(){
+var form = $('#form')[0]; // You need to use standard javascript object here
+var formData = new FormData(form);
+      $.ajax({
+      type : "POST",
+       url: "http://ec2-52-91-27-15.compute-1.amazonaws.com:8000/savefile",
+         data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(response) {
+           console.log(formData);
+>>>>>>> 205d2222a3a6c97b5905c12b72a722bf21e85dda
 
+      },
+      });
+      });
+</script>
         <script>
          $(document).ready(function() {
   if (window.File && window.FileList && window.FileReader) {
