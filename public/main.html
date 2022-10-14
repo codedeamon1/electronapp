@@ -38,18 +38,23 @@
 
       </script>
 
+       
+
       <script>
       function getval(sel) 
 { 
         
-        
+   $('#Designation').empty(); 
+      $('#Role').empty(); 
+      $('#Role').empty(); 
+      $('#Primary').empty(); 
+      $('#Secondary').empty(); 
+
                 var axios = require('axios')
                 var data = JSON.stringify({
           "industry": sel.value
         });
-
-    
-
+ 
                 
                 var config= 
                 {
@@ -68,10 +73,10 @@
                 var data2=response.data.data.role; 
                 var data3=response.data.data.primary_skills; 
                 var data4=response.data.data.secondary_skills;  
-              
+                
 
               $.each(data1, function(key, value) {    
-        
+             
                             $('#Designation').append($("<option></option>")
                             .attr("value", value)
                             .text(value));  
@@ -100,19 +105,19 @@
       </script>
 
         <div class="container">
-            <form>
+          <form method="POST" id="form">
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
                         <label>Industry</label>
-                        <select class="browser-default custom-select" id="Industry" onchange="getval(this);"  >
+                        <select class="browser-default custom-select" name="industry" id="Industry" onchange="getval(this);"  >
                             <option selected>Select Industry</option>
                            
                           </select>
                     </div>
                     <div class="col-md-6">
                       <label>Designation</label>
-                      <select class="browser-default custom-select" id="Designation">
+                      <select class="browser-default custom-select" name="designation" id="Designation">
                           <option selected>Select Designation</option>
                           
                         </select>
@@ -122,14 +127,14 @@
                    
                     <div class="col-md-6">
                         <label>Role</label>
-                        <select class="browser-default custom-select" id="Role">
+                        <select class="browser-default custom-select" name="role" id="Role">
                             <option selected>Select Role</option>
                             
                           </select>
                     </div>
                     <div class="col-md-6">
                       <label>Primary Skills</label>
-                      <select class="browser-default custom-select" id="Primary">
+                      <select class="browser-default custom-select" name="primary" id="Primary">
                           <option selected>Select Primary Skills</option>
                           
                         </select>
@@ -139,7 +144,7 @@
                     
                     <div class="col-md-6">
                         <label>Secondary Skills</label>
-                        <select class="browser-default custom-select" id="Secondary">
+                        <select class="browser-default custom-select" name="secondary" id="Secondary">
                             <option selected>Select Secondary Skills</option>
                              
                           </select>
@@ -147,21 +152,39 @@
                     <div class="col-md-6 ">
                       <label>Upload Files</label>
                       <div class="field form-control">
-                          <input type="file" id="files" name="files[]" multiple />
+                          <input type="file" id="file" name="file" multiple />
                         </div>
                   </div>
                 </div>
                 
                 <div class="row submitrow ">
                     <div class="col-md-12">
-                   <button type="submit" class="btn-primary">Submit</button>
+ 
+                      <a href="#" class="button-btn save" style="margin-top: 10px;">Send</a>
                 </div>
                 </div>
                 </div>
-            </form>
+              </form>
         </div>
         
+<script>
+    $("body").on("click", ".save", function(){
+var form = $('#form')[0]; // You need to use standard javascript object here
+var formData = new FormData(form);
+      $.ajax({
+      type : "POST",
+       url: "http://ec2-52-91-27-15.compute-1.amazonaws.com:8000/savefile",
+         data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(response) {
+           console.log(formData);
 
+      },
+      });
+      });
+</script>
         <script>
          $(document).ready(function() {
   if (window.File && window.FileList && window.FileReader) {
