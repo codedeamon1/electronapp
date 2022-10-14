@@ -38,18 +38,23 @@
 
       </script>
 
+       
+
       <script>
       function getval(sel) 
 { 
         
-        
+   $('#Designation').empty(); 
+      $('#Role').empty(); 
+      $('#Role').empty(); 
+      $('#Primary').empty(); 
+      $('#Secondary').empty(); 
+
                 var axios = require('axios')
                 var data = JSON.stringify({
           "industry": sel.value
         });
-
-    
-
+ 
                 
                 var config= 
                 {
@@ -68,10 +73,10 @@
                 var data2=response.data.data.role; 
                 var data3=response.data.data.primary_skills; 
                 var data4=response.data.data.secondary_skills;  
-              
+                
 
               $.each(data1, function(key, value) {    
-        
+             
                             $('#Designation').append($("<option></option>")
                             .attr("value", value)
                             .text(value));  
@@ -100,19 +105,19 @@
       </script>
 
         <div class="container">
-            <form>
+          <form method="POST" id="form" enctype="multipart/form-data">
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
                         <label>Industry</label>
-                        <select class="browser-default custom-select" id="Industry" onchange="getval(this);"  >
+                        <select class="browser-default custom-select" name="industry" id="Industry" onchange="getval(this);"  >
                             <option selected>Select Industry</option>
                            
                           </select>
                     </div>
                     <div class="col-md-6">
                       <label>Designation</label>
-                      <select class="browser-default custom-select" id="Designation">
+                      <select class="browser-default custom-select" name="designation" id="Designation">
                           <option selected>Select Designation</option>
                           
                         </select>
@@ -122,14 +127,14 @@
                    
                     <div class="col-md-6">
                         <label>Role</label>
-                        <select class="browser-default custom-select" id="Role">
+                        <select class="browser-default custom-select" name="role" id="Role">
                             <option selected>Select Role</option>
                             
                           </select>
                     </div>
                     <div class="col-md-6">
                       <label>Primary Skills</label>
-                      <select class="browser-default custom-select" id="Primary">
+                      <select class="browser-default custom-select" name="primary" id="Primary">
                           <option selected>Select Primary Skills</option>
                           
                         </select>
@@ -139,7 +144,7 @@
                     
                     <div class="col-md-6">
                         <label>Secondary Skills</label>
-                        <select class="browser-default custom-select" id="Secondary">
+                        <select class="browser-default custom-select" name="secondary" id="Secondary">
                             <option selected>Select Secondary Skills</option>
                              
                           </select>
@@ -147,25 +152,161 @@
                     <div class="col-md-6 ">
                       <label>Upload Files</label>
                       <div class="field form-control">
-                          <input type="file" id="files" name="files[]" multiple />
+                          <input type="file" id="file" name="file" multiple />
                         </div>
+
+                        <div class="row">
+                          <div class="col-md-12"style="display:block;" >
+                            <span  id="files"></span>
+                          </div>
+                        </div>
+
                   </div>
                 </div>
                 
-                <div class="row submitrow ">
-                    <div class="col-md-12">
-                   <button type="submit" class="btn-primary">Submit</button>
+                <div class="row ">
+                    <div class="col-md-12 text-center">
+                     <button type="submit" class="button-btn save" > Save </button>
+                 </div>
                 </div>
                 </div>
-                </div>
-            </form>
+              </form>
         </div>
+        <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>     
+<script>
+
+$('#form').submit(function(e) {  
+  e.preventDefault();
+  var formData = new FormData(this);
+ 
+
+  //var url = "upload-files.php";
+ 
+
+
+
+  formData.forEach(function(entry) {
+   
+    console.log(entry)
+    if (entry instanceof File) {
+      var fileForm = new FormData()
+      fileForm.append('industry', document.getElementById("Industry").value);
+      fileForm.append('designation', document.getElementById("Designation").value);
+      fileForm.append('role', document.getElementById("Role").value);
+      fileForm.append('primary', document.getElementById("Primary").value);
+      fileForm.append('secondary', document.getElementById("Secondary").value);
+      fileForm.append('userid',sessionStorage.getItem('id'))
+      fileForm.append('file', entry);
+      
+     
+
+     $.ajax({
+      type : "POST",
+      url: "http://ec2-52-91-27-15.compute-1.amazonaws.com:8000/filecheck ",
+      data: {'userid':sessionStorage.getItem('id'),'filename':entry.name},
+      success: function(response) {
+         console.log(response.status)
+          var ext=entry.name.split('.').pop();
+          console.log(ext)
+       if( response.status === 0 && (ext=="doc"||ext=="docx"||ext=="pdf")) {
+        $.ajax({
+      type : "POST",
+      url: "http://ec2-52-91-27-15.compute-1.amazonaws.com:8000/savefile",
+      data: fileForm,
+      contentType: false,   
+      cache: false,
+      processData: false,
+      success: function(response) {
+       if(response.status==1){
         
+        swal({
+  icon: 'success',
+  title: response.message,
+  showConfirmButton: false,
+  timer: 1500
+})
+       }
+
+      },
+      });
+    }
+    else{
+     
+      swal({
+  icon: 'error',
+  title: response.message,
+  showConfirmButton: false,
+  timer: 1000
+})
+    }
+      },
+      });
+
+      
+
+      /*$.ajax({
+        url: url,
+        type: 'post',
+        data: fileForm,
+        success: function(response) {
+          alert(response);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      }) */
+
+
+
+    }
+  })
+  return false;
+})
+
+
+
+/*
+    $("body").on("click", ".save", function(){
+
+      var form = $('#form')[0]; // You need to use standard javascript object here
+     var formData = new FormData(form); 
+
+     console.log(formData);
+
+    //var files = $("#file").get(0).files;  
+
+   //   console.log(files);
+
+for (var i = 0; i < files.length; i++) {
+
+ 
+formData.append("file", files[i]);
+
+console.log(formData);   
+
+  $.ajax({
+      type : "POST",
+       url: "http://ec2-52-91-27-15.compute-1.amazonaws.com:8000/savefile",
+      data: {'file':files[i]},
+      contentType: false,  
+      cache: false,
+      processData: false,
+      success: function(response) {
+         
+
+      },
+      });
+      
+} 
+
+      
+      });*/
+</script>
 
         <script>
          $(document).ready(function() {
   if (window.File && window.FileList && window.FileReader) {
-    $("#files").on("change", function(e) {
+    $("#file").on("change", function(e) {
       var files = e.target.files,
         filesLength = files.length;
       for (var i = 0; i < filesLength; i++) {
@@ -175,9 +316,7 @@
             "</span>").insertAfter("#files");
       }    
     });
-  } else {
-    alert("Your browser doesn't support to File API")
-  }
+  }  
 });
 
 

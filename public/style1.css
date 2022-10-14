@@ -1,3 +1,21 @@
+.save {
+  background: #09f;
+    color: #fff;
+    padding: 7px 15px;
+    margin: 0 5px 12px;
+    display: inline-block;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-family: 'open_sanssemibold';
+    font-size: 12px;
+    box-shadow: 0 3px 9px 0 rgb(0 0 0 / 30%);
+}
+
+.save:hover, .save:focus {
+  background: #663399;
+  color: #fff;
+  text-decoration: none;
+}
 
             .container-fluid{
                 margin-top: 10%;

@@ -16,8 +16,8 @@ hostname=socket.gethostname()
 IPAddr=socket.gethostbyname(hostname)   
  
 
-url1='http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/timedetail'
-url2= 'http://ec2-3-89-125-78.compute-1.amazonaws.com:8000/savebreak'
+url1='http://ec2-54-197-18-205.compute-1.amazonaws.com:8000/timedetail'
+url2= 'http://ec2-54-197-18-205.compute-1.amazonaws.com:8000/savebreak'
 
 
 
